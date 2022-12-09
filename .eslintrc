@@ -9,6 +9,6 @@
     "prettier"
   ],
   "rules": {
-    "prettier/prettier": 1 // Means error
+    "prettier/prettier": 1
   }
 }
