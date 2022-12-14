@@ -13,7 +13,7 @@
     "noEmitOnError": true,
     "sourceMap": true,
     "rootDirs": ["src", "tests"],
-    "baseUrl": "src"
+    "types": ["./src/types"]
   },
   "include": ["src", "tests"],
   "exclude": ["dist"]
