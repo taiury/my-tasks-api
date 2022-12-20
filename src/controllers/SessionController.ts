@@ -10,19 +10,23 @@ export interface SessionControllerProtocol {
 
 export class SessionController implements SessionControllerProtocol {
   public async store(req: Request, res: Response): Promise<Response> {
-    const { email, password }: User = req.body;
+    try {
+      const { email, password }: User = req.body;
 
-    const user = await prisma.user.findUnique({ where: { email } });
+      const user = await prisma.user.findUnique({ where: { email } });
 
-    if (!user || user.password !== password) {
-      return res.status(401).json({ error: 'Email or password invalid.' });
+      if (!user || user.password !== password) {
+        return res.status(401).json({ error: 'Email or password invalid.' });
+      }
+
+      return res.json({
+        id: user.id,
+        name: user.name,
+        age: user.age,
+        token: generateToken(user.id),
+      });
+    } catch (err) {
+      return res.status(400).json({ err });
     }
-
-    return res.json({
-      id: user.id,
-      name: user.name,
-      age: user.age,
-      token: generateToken(user.id),
-    });
   }
 }
