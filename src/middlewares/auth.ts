@@ -7,7 +7,11 @@ type authMiddlewareProps = (
   next: NextFunction,
 ) => void;
 
-type DecodedProps = { userId: number; iat: number; exp: number };
+interface DecodedProtocol {
+  userId: number;
+  iat: number;
+  exp: number;
+}
 
 const authMiddleware: authMiddlewareProps = async (req, res, next) => {
   try {
@@ -31,16 +35,15 @@ const authMiddleware: authMiddlewareProps = async (req, res, next) => {
 
     jwt.verify(token, process.env.SECRET as string, (err, decoded) => {
       if (err) {
-        return res.status(401).json({ error: 'Token invalid.' });
+        return res.status(401).json({ error: 'Token invalid2.' });
       }
 
-      req.userId = (decoded as DecodedProps).userId;
+      req.userId = (decoded as DecodedProtocol).userId;
+      next();
     });
-
-    next();
   } catch (error) {
     return res.status(400).json({ error });
   }
 };
 
-export { authMiddleware };
+export { authMiddleware, DecodedProtocol };
