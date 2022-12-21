@@ -14,7 +14,7 @@ model User {
   id        Int      @id @default(autoincrement())
   email     String   @unique
   name      String
-  age       Int?
+  age       Int
   password  String
   tasks     Task[]
   createdAt DateTime @default(now())
