@@ -5,7 +5,7 @@ module.exports = {
   testEnvironment: 'node',
   bail: true,
   testMatch: ['**/tests/**/*.(test|spec).[jt]s?(x)'],
-  collectCoverage: false,
+  collectCoverage: true,
   collectCoverageFrom: ['src/**'],
   coverageDirectory: 'coverage',
 };
