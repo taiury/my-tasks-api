@@ -46,11 +46,8 @@ export class UserController implements UserControllerProtocol {
   public async update(req: Request, res: Response): Promise<Response> {
     try {
       const { name, password, age }: User = req.body;
-      const userId = req.userId;
 
-      if (typeof userId !== 'number') {
-        return res.status(400).json({ error: 'Bad request' });
-      }
+      const userId = req.userId as number;
 
       const user = await prisma.user.update({
         where: { id: userId },
@@ -69,16 +66,14 @@ export class UserController implements UserControllerProtocol {
 
   public async index(req: Request, res: Response): Promise<Response> {
     try {
-      const userId = req.userId;
-
-      if (typeof userId !== 'number') {
-        return res.status(400).json({ error: 'Bad request' });
-      }
+      const userId = req.userId as number;
 
       const user = await prisma.user.findUnique({
         where: { id: userId },
         include: { tasks: { where: { authorId: userId } } },
       });
+
+      if (!user) throw new Error('Bad Request');
 
       return res.json({ ...user });
     } catch (error) {
