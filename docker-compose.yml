@@ -1,0 +1,12 @@
+version: '2.14'
+
+services:
+  db:
+    image: mariadb:latest
+    restart: always
+    container_name: integration-tests-prisma
+    ports:
+      - '3305:3306'
+    environment:
+      MARIADB_DATABASE: tests
+      MARIADB_ROOT_PASSWORD: prisma
