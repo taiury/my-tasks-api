@@ -18,7 +18,7 @@ const authMiddleware: authMiddlewareProps = async (req, res, next) => {
     const { authentication } = req.headers;
 
     if (typeof authentication !== 'string') {
-      return res.status(401).json({ error: 'Token malformated.' });
+      return res.status(400).json({ error: 'Token malformated.' });
     }
 
     const parts = authentication.split(' ');
@@ -35,14 +35,14 @@ const authMiddleware: authMiddlewareProps = async (req, res, next) => {
 
     jwt.verify(token, process.env.SECRET as string, (err, decoded) => {
       if (err) {
-        return res.status(401).json({ error: 'Token invalid2.' });
+        return res.status(401).json({ error: 'Token invalid.' });
       }
 
       req.userId = (decoded as DecodedProtocol).userId;
       next();
     });
   } catch (error) {
-    return res.status(400).json({ error });
+    return res.status(400).json({ error: 'Bad request' });
   }
 };
 
