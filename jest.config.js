@@ -4,8 +4,18 @@ module.exports = {
   preset: 'ts-jest',
   testEnvironment: 'node',
   bail: true,
-  testMatch: ['**/tests/**/*.(test|spec).[jt]s?(x)'],
+  maxWorkers: '20%',
   collectCoverage: true,
-  collectCoverageFrom: ['src/**'],
+  setupFilesAfterEnv: ['<rootDir>/jest-setup.js'],
+  collectCoverageFrom: [
+    '<rootDir>/src/**/*.ts',
+    '<rootDir>/src/*.ts',
+    '!<rootDir>/src/**/index.ts',
+    '!<rootDir>/src/**/types/**',
+  ],
   coverageDirectory: 'coverage',
+  moduleNameMapper: {
+    '@/tests/(.+)': '<rootDir>/tests/$1',
+    '@/(.+)': '<rootDir>/src/$1',
+  },
 };

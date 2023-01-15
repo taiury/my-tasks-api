@@ -12,8 +12,13 @@
     "skipLibCheck": true,
     "noEmitOnError": true,
     "sourceMap": true,
+    "baseUrl": "src",
+    "types": ["./src/types", "jest"],
     "rootDirs": ["src", "tests"],
-    "types": ["./src/types", "jest"]
+    "paths": {
+      "@/*": ["*"],
+      "@/tests/*": ["../tests/*"]
+    }
   },
   "include": ["src", "tests"],
   "exclude": ["dist"]
