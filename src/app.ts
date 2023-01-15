@@ -1,13 +1,15 @@
 import express from 'express';
 import cors from 'cors';
-import { routes } from './routes';
 import helmet from 'helmet';
+import { sessionRoutes, taskRoutes, userRoutes } from './routes';
 
 const app = express();
 app.use(cors());
 app.use(helmet());
 app.use(express.json());
 
-app.use(routes);
+app.use(sessionRoutes);
+app.use(userRoutes);
+app.use(taskRoutes);
 
 export { app };

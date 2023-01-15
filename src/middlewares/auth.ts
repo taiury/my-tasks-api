@@ -5,7 +5,7 @@ type authMiddlewareProps = (
   req: Request,
   res: Response,
   next: NextFunction,
-) => void;
+) => Promise<Response | void>;
 
 interface DecodedProtocol {
   userId: number;
@@ -13,7 +13,11 @@ interface DecodedProtocol {
   exp: number;
 }
 
-const authMiddleware: authMiddlewareProps = async (req, res, next) => {
+const authMiddleware: authMiddlewareProps = async (
+  req,
+  res,
+  next,
+): Promise<Response | void> => {
   try {
     const { authentication } = req.headers;
 
