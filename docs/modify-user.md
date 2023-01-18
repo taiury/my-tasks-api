@@ -28,7 +28,7 @@
     <td>❌</td>
   </tr>
    <tr>
-   <td>headers</td>
+   <td>Headers</td>
    <td>authentication</td>
     <td>String</td>
     <td>✅</td>
