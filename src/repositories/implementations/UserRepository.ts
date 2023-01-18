@@ -4,8 +4,17 @@ import { UserRepositoryProtocol } from '../UserRepositoryProtocol';
 
 class UserRepository implements UserRepositoryProtocol {
   constructor(private readonly dbClient: PrismaClient) {}
-  async findById(userId: number): Promise<User | null> {
-    const user = await this.dbClient.user.findUnique({ where: { id: userId } });
+  async findById(userId: number): Promise<Omit<User, 'password'> | null> {
+    const user = await this.dbClient.user.findUnique({
+      where: { id: userId },
+      select: {
+        id: true,
+        email: true,
+        name: true,
+        age: true,
+        password: false,
+      },
+    });
     return user;
   }
 
