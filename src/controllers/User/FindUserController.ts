@@ -4,7 +4,12 @@ import { User } from '@/entities';
 import { Request, Response } from 'express';
 
 class FindUserController implements ControllerProtocol {
-  constructor(private readonly findUser: UseCaseProtocol<FindUserDTO, User>) {}
+  constructor(
+    private readonly findUser: UseCaseProtocol<
+      FindUserDTO,
+      Omit<User, 'password'>
+    >,
+  ) {}
 
   async perform(request: Request, response: Response): Promise<Response> {
     try {
