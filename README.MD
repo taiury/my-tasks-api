@@ -30,7 +30,7 @@ Requisitos para uso:
 - Ter **node** instalado na sua maquina.
 - Ter o **yarn** instalado na sua maquina.
 - Banco de dados **Mysql** ou **MariaDB**.
-- Criar um arquivo **.env** na raiz do projeto, copiando os parametros do **.env.test**.
+- Criar um arquivo **.env** na raiz do projeto, copiando os parametros do **.env.test** (editando de acordo com suas especificações).
 
 Execute o comando `yarn build` para gerar uma pasta **dist** e execute `yarn start` para rodar o projeto, caso deseje rodar em modo development use o comando `yarn dev`.
 
