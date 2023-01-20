@@ -30,7 +30,7 @@ describe('ModifyTaskController', () => {
   });
 
   it('should modify task in repository because user id is invalid', async () => {
-    const req = new MockRequest({ body: { taskId: 1 } }) as Request;
+    const req = new MockRequest({ body: { taskId: 1, userId: 70 } }) as Request;
     const res = new MockResponse() as Response;
 
     await sut.perform(req, res);

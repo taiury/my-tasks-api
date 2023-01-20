@@ -1,5 +1,5 @@
 import { ControllerProtocol, UseCaseProtocol } from '@/types';
-import { ModifyTaskDTO } from '@/useCases';
+import { ModifyTaskDTO, modifyTaskSchema } from '@/useCases';
 import { Request, Response } from 'express';
 
 class ModifyTaskController implements ControllerProtocol {
@@ -8,11 +8,11 @@ class ModifyTaskController implements ControllerProtocol {
   ) {}
   async perform(request: Request, response: Response): Promise<Response> {
     try {
-      const userId = request.userId;
-      const { taskId, title, description, finalized } =
-        request.body as ModifyTaskDTO;
-
-      if (!userId) throw new Error('User Id is invalid');
+      const { taskId, userId, description, finalized, title } =
+        modifyTaskSchema.parse({
+          ...request.body,
+          userId: request.userId,
+        });
 
       await this.modifyTask.execute({
         userId,

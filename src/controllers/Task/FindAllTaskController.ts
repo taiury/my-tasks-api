@@ -1,5 +1,5 @@
 import { ControllerProtocol, UseCaseProtocol } from '@/types';
-import { FindAllTaskDTO } from '@/useCases';
+import { FindAllTaskDTO, findAllTaskSchema } from '@/useCases';
 import { Task } from '@/entities';
 import { Request, Response } from 'express';
 
@@ -9,9 +9,7 @@ class FindAllTaskController implements ControllerProtocol {
   ) {}
   async perform(request: Request, response: Response): Promise<Response> {
     try {
-      const userId = request.userId;
-
-      if (!userId) throw new Error('User Id is invalid');
+      const { userId } = findAllTaskSchema.parse({ userId: request.userId });
 
       const task = await this.findTask.execute({ userId });
 

@@ -1,5 +1,5 @@
 import { ControllerProtocol, UseCaseProtocol } from '@/types';
-import { CreateUserDTO } from '@/useCases';
+import { CreateUserDTO, createUserSchema } from '@/useCases';
 import { Request, Response } from 'express';
 
 class CreateUserController implements ControllerProtocol {
@@ -8,7 +8,9 @@ class CreateUserController implements ControllerProtocol {
   ) {}
   async perform(request: Request, response: Response): Promise<Response> {
     try {
-      const { email, password, name, age } = request.body as CreateUserDTO;
+      const { email, password, name, age } = createUserSchema.parse(
+        request.body,
+      );
 
       await this.createUser.execute({ email, password, name, age });
       return response.status(200).json();

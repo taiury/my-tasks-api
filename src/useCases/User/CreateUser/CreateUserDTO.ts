@@ -1,8 +1,12 @@
-interface CreateUserDTO {
-  email: string;
-  name: string;
-  age: number;
-  password: string;
-}
+import { z } from 'zod';
 
-export { CreateUserDTO };
+const createUserSchema = z.object({
+  email: z.string(),
+  name: z.string(),
+  age: z.number(),
+  password: z.string(),
+});
+
+type CreateUserDTO = z.infer<typeof createUserSchema>;
+
+export { createUserSchema, CreateUserDTO };

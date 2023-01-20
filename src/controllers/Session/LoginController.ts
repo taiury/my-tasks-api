@@ -1,5 +1,5 @@
 import { ControllerProtocol, UseCaseProtocol } from '@/types';
-import { LoginDTO, LoginResponse } from '@/useCases';
+import { LoginDTO, LoginResponse, loginSchema } from '@/useCases';
 import { Request, Response } from 'express';
 
 class LoginController implements ControllerProtocol {
@@ -8,7 +8,7 @@ class LoginController implements ControllerProtocol {
   ) {}
   async perform(request: Request, response: Response): Promise<Response> {
     try {
-      const { email, password } = request.body as LoginDTO;
+      const { email, password } = loginSchema.parse(request.body);
 
       const session = await this.login.execute({ email, password });
 

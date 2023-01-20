@@ -1,5 +1,5 @@
 import { ControllerProtocol, UseCaseProtocol } from '@/types';
-import { ModifyUserDTO } from '@/useCases';
+import { ModifyUserDTO, modifyUserSchema } from '@/useCases';
 import { Request, Response } from 'express';
 
 class ModifyUserController implements ControllerProtocol {
@@ -8,8 +8,10 @@ class ModifyUserController implements ControllerProtocol {
   ) {}
   async perform(request: Request, response: Response): Promise<Response> {
     try {
-      const userId = request.userId as number;
-      const { password, name, age } = request.body as ModifyUserDTO;
+      const { userId, password, name, age } = modifyUserSchema.parse({
+        ...request.body,
+        userId: request.userId,
+      });
 
       await this.modifyUser.execute({ userId, password, name, age });
 
