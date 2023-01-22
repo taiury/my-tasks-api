@@ -6,7 +6,6 @@ module.exports = {
   bail: true,
   maxWorkers: '20%',
   collectCoverage: true,
-  setupFilesAfterEnv: ['<rootDir>/jest-setup.js'],
   collectCoverageFrom: [
     '<rootDir>/src/**/*.ts',
     '<rootDir>/src/*.ts',
