@@ -5,7 +5,6 @@ module.exports = {
   testEnvironment: 'node',
   bail: true,
   maxWorkers: '20%',
-  collectCoverage: true,
   collectCoverageFrom: [
     '<rootDir>/src/**/*.ts',
     '<rootDir>/src/*.ts',
