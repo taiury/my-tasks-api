@@ -25,7 +25,12 @@ class TaskRepository implements TaskRepositoryProtocol {
   async modify({ id, title, description, finalized }: Task): Promise<void> {
     await this.dbClient.task.update({
       where: { id },
-      data: { title, description, finalized },
+      data: {
+        title,
+        description,
+        finalized,
+        deleteAt: finalized ? new Date() : null,
+      },
     });
   }
 }
