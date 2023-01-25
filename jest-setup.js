@@ -1,4 +1,3 @@
-// eslint-disable-next-line no-undef, @typescript-eslint/no-var-requires
-require('dotenv').config({
-  path: './.env.test',
-});
+/* eslint-disable*/
+
+process.env.DB_IP = 'localhost';

@@ -5,6 +5,7 @@ module.exports = {
   testEnvironment: 'node',
   bail: true,
   maxWorkers: '20%',
+  setupFilesAfterEnv: ['<rootDir>/jest-setup.js'],
   collectCoverageFrom: [
     '<rootDir>/src/**/*.ts',
     '<rootDir>/src/*.ts',
