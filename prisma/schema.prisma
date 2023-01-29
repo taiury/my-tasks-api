@@ -28,7 +28,7 @@ model Task {
   description String?
   author      User      @relation(fields: [authorId], references: [id])
   authorId    Int
-  finalized   Boolean
+  finalized   Boolean   @default(false)
   createdAt   DateTime  @default(now())
   deleteAt    DateTime?
 }
