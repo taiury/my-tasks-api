@@ -16,6 +16,7 @@ model User {
   name       String
   age        Int
   email_code Int?     @unique
+  isEnabled  Boolean  @default(false)
   password   String
   tasks      Task[]
   createdAt  DateTime @default(now())
