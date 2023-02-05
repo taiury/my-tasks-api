@@ -22,6 +22,8 @@ class LoginUseCase implements UseCaseProtocol<LoginDTO, LoginResponse> {
       throw new Error('Email or password invalid.');
     }
 
+    if (!user.isEnabled) throw new Error('Account is not enabled.');
+
     return {
       id: user.id as number,
       name: user.name,
