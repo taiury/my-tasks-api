@@ -1,10 +1,10 @@
 import { z } from 'zod';
 
-const enableSchema = z.object({
+const enableAccountSchema = z.object({
   email: z.string(),
   code: z.number(),
 });
 
-type EnableDTO = z.infer<typeof enableSchema>;
+type EnableAccountDTO = z.infer<typeof enableAccountSchema>;
 
-export { enableSchema, EnableDTO };
+export { enableAccountSchema, EnableAccountDTO };

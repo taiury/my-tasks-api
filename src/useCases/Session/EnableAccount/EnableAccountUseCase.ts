@@ -2,12 +2,12 @@ import { User } from '@/entities';
 import { UserRepositoryProtocol } from '@/repositories';
 import { UseCaseProtocol } from '@/types';
 import { Api401Error, Api404Error } from '@/utils';
-import { EnableDTO } from './EnableAccountDTO';
+import { EnableAccountDTO } from './EnableAccountDTO';
 
-class EnableAccountUseCase implements UseCaseProtocol<EnableDTO, void> {
+class EnableAccountUseCase implements UseCaseProtocol<EnableAccountDTO, void> {
   constructor(private userRepository: UserRepositoryProtocol) {}
 
-  async execute({ code, email }: EnableDTO): Promise<void> {
+  async execute({ code, email }: EnableAccountDTO): Promise<void> {
     const user = await this.userRepository.findByEmail(email);
 
     if (!user) throw new Api404Error('User not found.');
