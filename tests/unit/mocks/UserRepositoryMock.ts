@@ -47,6 +47,11 @@ class UserRepositoryMock implements UserRepositoryProtocol {
       name: user.name ? user.name : userModified.name,
       age: user.age ? user.age : userModified.age,
       password: user.password ? user.password : userModified.password,
+      email_code:
+        typeof user.email_code === typeof null
+          ? user.email_code
+          : userModified.email_code,
+      isEnabled: user.isEnabled ? user.isEnabled : userModified.isEnabled,
     } as User;
     this.Users[indexUser] = userModified;
   }
