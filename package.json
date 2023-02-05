@@ -16,7 +16,7 @@
     "test:ci": "npm test -- --coverage",
     "build": "npx tsup",
     "migrate:db": "prisma db push",
-    "prepare": "husky install"
+    "husky:prepare": "husky install"
   },
   "devDependencies": {
     "@commitlint/cli": "^17.4.2",
