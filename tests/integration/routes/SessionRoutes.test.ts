@@ -8,6 +8,7 @@ const newUser = {
   name: 'TEST',
   password: 'PASSWORD',
   age: 32,
+  isEnabled: true,
 } as User;
 
 describe('SessionRoutes', () => {

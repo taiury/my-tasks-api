@@ -6,11 +6,16 @@ const userTest: User = {
   email: 'test@gmail.com',
   password: 'PASSWORD',
   name: 'TEST',
+  isEnabled: true,
   age: 23,
   createdAt: new Date(),
 };
 
 class UserRepositoryMock implements UserRepositoryProtocol {
+  async findByEmailCode(code: number): Promise<User | null> {
+    const user = this.Users.find((user) => user.email_code === code);
+    return user ? user : null;
+  }
   private readonly Users: User[] = [userTest];
 
   async findById(userId: number): Promise<User | null> {
@@ -27,6 +32,7 @@ class UserRepositoryMock implements UserRepositoryProtocol {
     this.Users.push({
       ...props,
       id: this.Users.length + 1,
+      isEnabled: false,
       createdAt: new Date(),
     });
   }
