@@ -2,7 +2,7 @@ import { Router } from 'express';
 
 import { authMiddleware } from '@/middlewares';
 import { dbClient, UserRepository } from '@/repositories/implementations';
-import { checkEmail } from '@/utils';
+import { checkEmail, GenerateEmailConfirmationCode } from '@/utils';
 import {
   CreateUserController,
   FindUserController,
@@ -13,12 +13,20 @@ import {
   FindUserUseCase,
   ModifyUserUseCase,
 } from '@/useCases';
+import { MailProvider } from '@/providers';
 
 const userRoutes = Router();
 
 const userRepository = new UserRepository(dbClient);
+const mailProvider = new MailProvider();
+const generateCode = new GenerateEmailConfirmationCode(userRepository);
 
-const createUserUseCase = new CreateUserUseCase(userRepository, checkEmail);
+const createUserUseCase = new CreateUserUseCase(
+  userRepository,
+  mailProvider,
+  generateCode,
+  checkEmail,
+);
 const createUserController = new CreateUserController(createUserUseCase);
 
 userRoutes.post('/user', (req, res) => createUserController.perform(req, res));
