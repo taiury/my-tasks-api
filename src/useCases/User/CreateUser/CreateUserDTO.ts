@@ -4,6 +4,7 @@ const createUserSchema = z.object({
   email: z.string(),
   name: z.string(),
   age: z.number(),
+  email_code: z.number().optional(),
   password: z.string(),
 });
 
