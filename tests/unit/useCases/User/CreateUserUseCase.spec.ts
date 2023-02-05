@@ -1,9 +1,17 @@
 import { CreateUserUseCase } from '@/useCases';
-import { checkEmail } from '@/utils';
-import { UserRepositoryMock } from '../../mocks';
+import { checkEmail, GenerateEmailConfirmationCode } from '@/utils';
+import { MailProviderMock, UserRepositoryMock } from '../../mocks';
 
 const userRepositoryMock = new UserRepositoryMock();
-const sut = new CreateUserUseCase(userRepositoryMock, checkEmail);
+const mailProviderMock = new MailProviderMock();
+const generateCode = new GenerateEmailConfirmationCode(userRepositoryMock);
+
+const sut = new CreateUserUseCase(
+  userRepositoryMock,
+  mailProviderMock,
+  generateCode,
+  checkEmail,
+);
 
 describe('CreateUserUseCase', () => {
   it('should create a new user in repository.', async () => {

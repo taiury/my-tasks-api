@@ -1,8 +1,13 @@
 import { CreateUserController } from '@/controllers';
 import { CreateUserDTO, CreateUserUseCase } from '@/useCases';
-import { checkEmail } from '@/utils';
+import { checkEmail, GenerateEmailConfirmationCode } from '@/utils';
 import { Request, Response } from 'express';
-import { MockRequest, MockResponse, UserRepositoryMock } from '../../mocks';
+import {
+  MailProviderMock,
+  MockRequest,
+  MockResponse,
+  UserRepositoryMock,
+} from '../../mocks';
 
 const users: CreateUserDTO[] = [
   { email: 'NEW_EMAIL@gmail.com', password: 'PASS', name: 'TEST', age: 57 },
@@ -14,9 +19,14 @@ const users: CreateUserDTO[] = [
   },
 ];
 
-const userRrepositoryMock = new UserRepositoryMock();
+const userRepositoryMock = new UserRepositoryMock();
+const mailProviderMock = new MailProviderMock();
+const generateCode = new GenerateEmailConfirmationCode(userRepositoryMock);
+
 const createUserUseCase = new CreateUserUseCase(
-  userRrepositoryMock,
+  userRepositoryMock,
+  mailProviderMock,
+  generateCode,
   checkEmail,
 );
 const sut = new CreateUserController(createUserUseCase);
