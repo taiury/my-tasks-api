@@ -29,14 +29,19 @@ class UserRepository implements UserRepositoryProtocol {
     return user as User | null;
   }
 
-  async add({ email, password, name, age }: User): Promise<void> {
-    await this.dbClient.user.create({ data: { email, password, name, age } });
+  async add({ email, password, name, age, email_code }: User): Promise<void> {
+    await this.dbClient.user.create({
+      data: { email, password, name, age, email_code },
+    });
   }
 
-  async modify(userId: number, { password, name, age }: User): Promise<void> {
+  async modify(
+    userId: number,
+    { password, name, age, email_code, isEnabled }: User,
+  ): Promise<void> {
     await this.dbClient.user.update({
       where: { id: userId },
-      data: { password, name, age },
+      data: { password, name, age, email_code, isEnabled },
     });
   }
 }
