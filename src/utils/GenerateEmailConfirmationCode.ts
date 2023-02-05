@@ -16,7 +16,7 @@ class GenerateEmailConfirmationCode
       emailCode,
     );
 
-    if (codeAlreadyExists) this.generate();
+    if (codeAlreadyExists) await this.generate();
 
     return emailCode;
   }
