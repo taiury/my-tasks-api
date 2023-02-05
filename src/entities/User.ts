@@ -7,6 +7,8 @@ interface User {
   age: number;
   password: string;
   tasks?: Task[];
+  email_code?: number;
+  isEnabled?: boolean;
   createdAt?: Date;
 }
 
