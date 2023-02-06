@@ -1,6 +1,6 @@
 import { ControllerProtocol, UseCaseProtocol } from '@/types';
 import { EnableAccountDTO } from '@/useCases';
-import { Api400Error, Api401Error, Api404Error } from '@/utils';
+import { BaseError } from '@/utils';
 import { Request, Response } from 'express';
 
 class EnableAccountController implements ControllerProtocol {
@@ -16,10 +16,7 @@ class EnableAccountController implements ControllerProtocol {
 
       return response.status(200).json();
     } catch (err) {
-      const isApi400Error = err instanceof Api400Error;
-      const isApi401Error = err instanceof Api401Error;
-      const isApi404Error = err instanceof Api404Error;
-      if (isApi400Error || isApi401Error || isApi404Error) {
+      if (err instanceof BaseError) {
         return response.status(err.statusCode).json({ error: err.name });
       }
 
