@@ -1,13 +1,19 @@
 import { User } from '@/entities';
 import { UserRepositoryProtocol } from '@/repositories';
 import { UseCaseProtocol } from '@/types';
-import { Api401Error, Api404Error } from '@/utils';
-import { EnableAccountDTO } from './EnableAccountDTO';
+import { Api400Error, Api401Error, Api404Error } from '@/utils';
+import { EnableAccountDTO, enableAccountSchema } from './EnableAccountDTO';
 
 class EnableAccountUseCase implements UseCaseProtocol<EnableAccountDTO, void> {
   constructor(private userRepository: UserRepositoryProtocol) {}
 
-  async execute({ code, email }: EnableAccountDTO): Promise<void> {
+  async execute(DTO: EnableAccountDTO): Promise<void> {
+    const { email, code } = enableAccountSchema.parse(DTO, {
+      errorMap: () => {
+        throw new Api400Error('Parameters are badly formatted.');
+      },
+    });
+
     const user = await this.userRepository.findByEmail(email);
 
     if (!user) throw new Api404Error('User not found.');
