@@ -132,7 +132,7 @@ describe('SessionRoutes', () => {
 
     expect(response.body).toEqual(
       expect.objectContaining({
-        error: 'Bad Request',
+        error: 'Parameters are badly formatted.',
       }),
     );
   });

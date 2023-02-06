@@ -66,4 +66,19 @@ describe('EnableAccountController', () => {
       error: 'User not found.',
     });
   });
+
+  it('should not enable account because email is undefined', async () => {
+    const sut = new EnableAccountController(enableAccountUseCase);
+    const req = new MockRequest({
+      body: { email: undefined, code: newUser.email_code },
+    }) as Request;
+    const res = new MockResponse() as Response;
+
+    await sut.perform(req, res);
+
+    expect(res.status).toHaveBeenCalledWith(400);
+    expect(res.json).toHaveBeenCalledWith({
+      error: 'Parameters are badly formatted.',
+    });
+  });
 });
