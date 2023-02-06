@@ -5,6 +5,7 @@ import { generateToken } from '@/utils';
 import { User } from '@prisma/client';
 
 const newUser = {
+  id: 1,
   email: 'TASK@gmail.com',
   name: 'TASK',
   password: 'PASSWORD',
@@ -29,16 +30,10 @@ describe('TaskRoutes', () => {
 
   // POST /task
   it('should create Task in repository return 200', async () => {
-    const user = await dbClient.user.findUnique({
-      where: { email: 'TASK@gmail.com' },
-    });
-
-    if (!user) throw new Error('User not exist');
-
     await request(app)
       .post('/task')
       .expect(200)
-      .set({ authentication: `Bearer ${generateToken(user.id)}` })
+      .set({ authentication: `Bearer ${generateToken(newUser.id)}` })
       .send({ title: 'TASK' })
       .send({ description: 'NEW_TASK' });
   });
@@ -61,36 +56,24 @@ describe('TaskRoutes', () => {
 
   // PUT /task
   it('should edit Task in repository return 200', async () => {
-    const user = await dbClient.user.findUnique({
-      where: { email: 'TASK@gmail.com' },
-    });
-
-    if (!user) throw new Error('User not exist');
-
     const tasks = await dbClient.task.findMany({
-      where: { authorId: user.id },
+      where: { authorId: newUser.id },
     });
 
     await request(app)
       .put('/task')
       .expect(200)
-      .set({ authentication: `Bearer ${generateToken(user.id)}` })
+      .set({ authentication: `Bearer ${generateToken(newUser.id)}` })
       .send({ taskId: tasks[0].id })
       .send({ finalized: true });
   });
 
   // PUT /task
   it('should not edit Task in repository return 400 because task id is invalid', async () => {
-    const user = await dbClient.user.findUnique({
-      where: { email: 'TASK@gmail.com' },
-    });
-
-    if (!user) throw new Error('User not exist');
-
     const response = await request(app)
       .put('/task')
       .expect(400)
-      .set({ authentication: `Bearer ${generateToken(user.id)}` })
+      .set({ authentication: `Bearer ${generateToken(newUser.id)}` })
       .send({ taskId: -1 })
       .send({ finalized: true });
 
@@ -103,26 +86,14 @@ describe('TaskRoutes', () => {
 
   //GET /task
   it('shouldfind Task in repository return 200', async () => {
-    const user = await dbClient.user.findUnique({
-      where: { email: 'TASK@gmail.com' },
-    });
-
-    if (!user) throw new Error('User not exist');
-
     await request(app)
       .get('/task')
       .expect(200)
-      .set({ authentication: `Bearer ${generateToken(user.id)}` });
+      .set({ authentication: `Bearer ${generateToken(newUser.id)}` });
   });
 
   //GET /task
   it('should not find Task in repository return 401 because token is invalid', async () => {
-    const user = await dbClient.user.findUnique({
-      where: { email: 'TASK@gmail.com' },
-    });
-
-    if (!user) throw new Error('User not exist');
-
     const response = await request(app)
       .get('/task')
       .expect(401)
@@ -137,20 +108,14 @@ describe('TaskRoutes', () => {
 
   // GET /task/:taskId/
   it('should find Task in repository return 200', async () => {
-    const user = await dbClient.user.findUnique({
-      where: { email: 'TASK@gmail.com' },
-    });
-
-    if (!user) throw new Error('User not exist');
-
     const tasks = await dbClient.task.findMany({
-      where: { authorId: user.id },
+      where: { authorId: newUser.id },
     });
 
     const response = await request(app)
       .get(`/task/${tasks[0].id}/`)
       .expect(200)
-      .set({ authentication: `Bearer ${generateToken(user.id)}` });
+      .set({ authentication: `Bearer ${generateToken(newUser.id)}` });
 
     expect(response.body).toEqual(
       expect.objectContaining({
