@@ -6,7 +6,7 @@ services:
     restart: always
     container_name: my-tasks-db
     ports:
-      - '3306:3306'
+      - '${DB_PORT}:3306'
     environment:
       MARIADB_DATABASE: my_tasks
       MARIADB_ROOT_PASSWORD: '${MARIADB_PASSWORD}'
