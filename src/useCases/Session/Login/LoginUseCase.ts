@@ -1,7 +1,7 @@
 import { UserRepositoryProtocol } from '@/repositories';
 import { UseCaseProtocol } from '@/types';
-import { IGenerateToken } from '@/utils';
-import { LoginDTO } from './LoginDTO';
+import { Api400Error, Api401Error, IGenerateToken } from '@/utils';
+import { LoginDTO, loginSchema } from './LoginDTO';
 
 interface LoginResponse {
   id: number;
@@ -15,14 +15,20 @@ class LoginUseCase implements UseCaseProtocol<LoginDTO, LoginResponse> {
     private readonly userRepository: UserRepositoryProtocol,
     private readonly generateToken: IGenerateToken,
   ) {}
-  async execute({ email, password }: LoginDTO): Promise<LoginResponse> {
+  async execute(DTO: LoginDTO): Promise<LoginResponse> {
+    const { email, password } = loginSchema.parse(DTO, {
+      errorMap: () => {
+        throw new Api400Error('Parameters are badly formatted.');
+      },
+    });
+
     const user = await this.userRepository.findByEmail(email);
 
     if (!user || user.password !== password) {
-      throw new Error('Email or password invalid.');
+      throw new Api401Error('Email or password invalid.');
     }
 
-    if (!user.isEnabled) throw new Error('Account is not enabled.');
+    if (!user.isEnabled) throw new Api401Error('Account is not enabled.');
 
     return {
       id: user.id as number,

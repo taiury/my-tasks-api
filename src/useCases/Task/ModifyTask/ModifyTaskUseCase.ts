@@ -1,21 +1,23 @@
 import { Task } from '@/entities';
 import { TaskRepositoryProtocol } from '@/repositories';
 import { UseCaseProtocol } from '@/types/UseCaseProtocol';
-import { ModifyTaskDTO } from './ModifyTaskDTO';
+import { Api400Error, Api401Error, Api404Error } from '@/utils';
+import { ModifyTaskDTO, modifyTaskSchema } from './ModifyTaskDTO';
 
 class ModifyTaskUseCase implements UseCaseProtocol<ModifyTaskDTO, void> {
   constructor(private readonly taskRepository: TaskRepositoryProtocol) {}
-  async execute({
-    userId,
-    taskId,
-    title,
-    description,
-    finalized,
-  }: ModifyTaskDTO): Promise<void> {
+  async execute(DTO: ModifyTaskDTO): Promise<void> {
+    const { userId, taskId, title, description, finalized } =
+      modifyTaskSchema.parse(DTO, {
+        errorMap: () => {
+          throw new Api400Error('Parameters are badly formatted.');
+        },
+      });
+
     const task = await this.taskRepository.findTaskById(taskId);
 
-    if (!task) throw new Error('Task not Exists');
-    if (task.authorId !== userId) throw new Error('Not the task owner');
+    if (!task) throw new Api404Error('Task not Exists.');
+    if (task.authorId !== userId) throw new Api401Error('Not the task owner.');
 
     await this.taskRepository.modify({
       id: taskId,

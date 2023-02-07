@@ -1,8 +1,13 @@
 import { MailProviderProtocol } from '@/providers';
 import { UserRepositoryProtocol } from '@/repositories';
 import { UseCaseProtocol } from '@/types/UseCaseProtocol';
-import { CheckEmail, GenerateEmailConfirmationCodeProtocol } from '@/utils';
-import { CreateUserDTO } from './CreateUserDTO';
+import {
+  Api400Error,
+  Api401Error,
+  CheckEmail,
+  GenerateEmailConfirmationCodeProtocol,
+} from '@/utils';
+import { CreateUserDTO, createUserSchema } from './CreateUserDTO';
 
 class CreateUserUseCase implements UseCaseProtocol<CreateUserDTO, void> {
   constructor(
@@ -13,16 +18,24 @@ class CreateUserUseCase implements UseCaseProtocol<CreateUserDTO, void> {
   ) {}
 
   async execute(DTO: CreateUserDTO): Promise<void> {
-    const isEmail = this.checkEmail(DTO.email);
-    if (!isEmail) throw new Error('Email invalid.');
+    const { email, password, name, age } = createUserSchema.parse(DTO, {
+      errorMap: () => {
+        throw new Api400Error('Parameters are badly formatted.');
+      },
+    });
+    const isEmail = this.checkEmail(email);
+    if (!isEmail) throw new Api401Error('Email invalid.');
 
-    const userAlreadyExists = await this.userRepository.findByEmail(DTO.email);
-    if (userAlreadyExists) throw new Error('Email already exists.');
+    const userAlreadyExists = await this.userRepository.findByEmail(email);
+    if (userAlreadyExists) throw new Api401Error('Email already exists.');
 
     const emailCode = await this.generateCode.generate();
 
     await this.userRepository.add({
-      ...DTO,
+      email,
+      password,
+      name,
+      age,
       email_code: emailCode,
     });
 
@@ -32,8 +45,8 @@ class CreateUserUseCase implements UseCaseProtocol<CreateUserDTO, void> {
         name: 'My Tasks',
       },
       to: {
-        email: DTO.email,
-        name: DTO.name,
+        email: email,
+        name: name,
       },
       subject: 'Confirmação de email',
       body: `<p>Esse é o seu codigo de confirmação de email: [${emailCode}].</p>`,

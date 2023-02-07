@@ -1,11 +1,16 @@
 import { TaskRepositoryProtocol } from '@/repositories';
 import { UseCaseProtocol } from '@/types/UseCaseProtocol';
-import { CreateTaskDTO } from './CreateTaskDTO';
+import { Api400Error } from '@/utils';
+import { CreateTaskDTO, createTaskSchema } from './CreateTaskDTO';
 
 class CreateTaskUseCase implements UseCaseProtocol<CreateTaskDTO, void> {
   constructor(private readonly taskRepository: TaskRepositoryProtocol) {}
-  async execute({ userId, title, description }: CreateTaskDTO): Promise<void> {
-    if (!title) throw new Error('Title is required');
+  async execute(DTO: CreateTaskDTO): Promise<void> {
+    const { userId, title, description } = createTaskSchema.parse(DTO, {
+      errorMap: () => {
+        throw new Api400Error('Parameters are badly formatted.');
+      },
+    });
 
     this.taskRepository.add({
       title,
