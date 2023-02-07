@@ -41,5 +41,5 @@
 
 > ## Exceções
 
-1. ✅ Retorna **400** caso o email já exista.
-2. ✅ Retorna **400** se faltar algum parâmetro.
+1. ✅ Retorna **401** caso o email já exista.
+2. ✅ Retorna **400** se faltar algum parâmetro ou os parâmetros enviados estejam mal formatados.

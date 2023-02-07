@@ -51,5 +51,6 @@
 
 > ## Exceções
 
-1. ✅ Retorna **400** caso o email ou senha estejam incorretas.
-2. ✅ Retorna **400** se faltar algum parâmetro.
+1. ✅ Retorna **404** caso o **email** não sejá valido no banco de dados.
+2. ✅ Retorna **401** caso o **code** sejá invalido.
+3. ✅ Retorna **400** se faltar algum parâmetro ou algum parâmetro enviado estejá mal formatado.

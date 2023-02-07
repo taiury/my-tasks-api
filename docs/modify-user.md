@@ -41,4 +41,5 @@
 
 > ## Exceções
 
-1. ✅ Retorna Status Error **400 ou 401** caso authentication estejá mal formatada, formato corretor: **Bearer `space` Token**
+1. ✅ Retorna Status Error **400** caso algum parâmetro enviado estejá mal formatado.
+2. ✅ Retorna Status Error **400 ou 401** caso authentication estejá mal formatada, formato corretor: **Bearer `space` Token**.
