@@ -1,5 +1,6 @@
 import { Task } from '@/entities';
 import { ModifyTaskUseCase } from '@/useCases';
+import { Api401Error, Api404Error } from '@/utils';
 import { TaskRepositoryMock } from '../../mocks';
 
 const newTask: Task = {
@@ -38,7 +39,7 @@ describe('ModifyTaskUseCase', () => {
         title: 'NEW_TITLE',
         description: 'NEW_DESCRIPTION',
       }),
-    ).rejects.toThrow(Error('Task not Exists'));
+    ).rejects.toThrow(new Api404Error('Task not Exists.'));
   });
 
   it('should not modify Task in repository because TaskID is invalid', async () => {
@@ -49,6 +50,6 @@ describe('ModifyTaskUseCase', () => {
         title: 'NEW_TITLE',
         description: 'NEW_DESCRIPTION',
       }),
-    ).rejects.toThrow(Error('Not the task owner'));
+    ).rejects.toThrow(new Api401Error('Not the task owner.'));
   });
 });

@@ -4,9 +4,24 @@ services:
   db:
     image: mariadb:latest
     restart: always
-    container_name: integration-tests-prisma
+    container_name: my-tasks-db
     ports:
-      - '3305:3306'
+      - '${DB_PORT}:3306'
     environment:
-      MARIADB_DATABASE: tests
-      MARIADB_ROOT_PASSWORD: prisma
+      MARIADB_DATABASE: my_tasks
+      MARIADB_ROOT_PASSWORD: '${MARIADB_PASSWORD}'
+  api:
+    image: node:18
+    working_dir: /usr/app
+    container_name: my-tasks-api
+    restart: always
+    ports:
+      - '${API_PORT}:3000'
+    volumes:
+      - ./prisma/:/usr/app/prisma/
+      - ./dist/:/usr/app/dist/
+      - ./package.json:/usr/app/package.json
+      - ./.env:/usr/app/.env
+    command: bash -c "npm install --omit=dev && npm start"
+    links:
+      - 'db'

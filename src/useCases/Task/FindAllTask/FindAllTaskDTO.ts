@@ -1,5 +1,7 @@
-interface FindAllTaskDTO {
-  userId: number;
-}
+import { z } from 'zod';
 
-export { FindAllTaskDTO };
+const findAllTaskSchema = z.object({ userId: z.number() });
+
+type FindAllTaskDTO = z.infer<typeof findAllTaskSchema>;
+
+export { findAllTaskSchema, FindAllTaskDTO };

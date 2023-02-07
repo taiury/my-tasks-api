@@ -1,4 +1,5 @@
 import { LoginUseCase } from '@/useCases';
+import { Api401Error } from '@/utils';
 import { mockGenerateToken, UserRepositoryMock } from '../../mocks';
 
 const userRepositoryMock = new UserRepositoryMock();
@@ -25,7 +26,7 @@ describe('LoginUseCase', () => {
         email: 'test@gmail.com',
         password: 'INVALID',
       }),
-    ).rejects.toThrow(Error('Email or password invalid.'));
+    ).rejects.toThrow(new Api401Error('Email or password invalid.'));
   });
 
   it('should not init session because Email is invalid', async () => {
@@ -34,6 +35,6 @@ describe('LoginUseCase', () => {
         email: 'INVALID@gmail.com',
         password: 'PASSWORD',
       }),
-    ).rejects.toThrow(Error('Email or password invalid.'));
+    ).rejects.toThrow(new Api401Error('Email or password invalid.'));
   });
 });

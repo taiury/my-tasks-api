@@ -1,4 +1,5 @@
-import { CreateTaskUseCase } from '@/useCases';
+import { CreateTaskDTO, CreateTaskUseCase } from '@/useCases';
+import { Api400Error } from '@/utils';
 import { TaskRepositoryMock } from '../../mocks';
 
 const taskRepository = new TaskRepositoryMock();
@@ -11,5 +12,14 @@ describe('CreateTaskUseCase', () => {
 
     expect(task?.authorId).toEqual(1);
     expect(task?.title).toEqual('TEST');
+  });
+
+  it('should not create a new task in repository because title is undifened.', async () => {
+    await expect(
+      sut.execute({
+        userId: 1,
+        description: 'Lorem ipsum',
+      } as CreateTaskDTO),
+    ).rejects.toThrow(new Api400Error('parameters are badly formatted.'));
   });
 });

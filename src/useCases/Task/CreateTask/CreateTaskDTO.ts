@@ -1,7 +1,11 @@
-interface CreateTaskDTO {
-  userId: number;
-  title: string;
-  description?: string;
-}
+import { z } from 'zod';
 
-export { CreateTaskDTO };
+const createTaskSchema = z.object({
+  userId: z.number(),
+  title: z.string(),
+  description: z.string().optional(),
+});
+
+type CreateTaskDTO = z.infer<typeof createTaskSchema>;
+
+export { createTaskSchema, CreateTaskDTO };

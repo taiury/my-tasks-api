@@ -33,7 +33,7 @@ describe('LoginController', () => {
     );
   });
 
-  it('should init session', async () => {
+  it('should not init session', async () => {
     const req = new MockRequest({
       body: { email: 'test@gmail.com', password: 'INVALID' },
     }) as Request;
@@ -41,10 +41,10 @@ describe('LoginController', () => {
 
     await sut.perform(req, res);
 
-    expect(res.status).toHaveBeenCalledWith(400);
+    expect(res.status).toHaveBeenCalledWith(401);
     expect(res.json).toHaveBeenCalledWith(
       expect.objectContaining({
-        error: 'Bad Request',
+        error: 'Email or password invalid.',
       }),
     );
   });

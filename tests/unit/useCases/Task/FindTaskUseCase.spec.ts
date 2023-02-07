@@ -1,5 +1,6 @@
 import { Task } from '@/entities';
 import { FindTaskUseCase } from '@/useCases';
+import { Api401Error, Api404Error } from '@/utils';
 import { TaskRepositoryMock } from '../../mocks';
 
 const newTask: Task = {
@@ -26,13 +27,13 @@ describe('FindTaskUseCase', () => {
 
   it('should not find the task in repository because taskId is invalid.', async () => {
     await expect(sut.execute({ taskId: 99999, userId: 1 })).rejects.toThrow(
-      new Error('Task ID is invalid'),
+      new Api404Error('Task ID is invalid.'),
     );
   });
 
   it('should not find the task in the repository because the user is not the owner of the task.', async () => {
     await expect(sut.execute({ taskId: 1, userId: 99999 })).rejects.toThrow(
-      new Error('Is not task owner'),
+      new Api401Error('Is not task owner.'),
     );
   });
 });

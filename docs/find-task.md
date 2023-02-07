@@ -58,4 +58,7 @@
 
 > ## Exceções
 
-1. ✅ Retorna Status Error **400 ou 401** caso authentication estejá mal formatada, formato corretor: **Bearer `space` Token**
+1. ✅ Retorna Status Error **400** caso **taskId** não seja um numero.
+2. ✅ Retorna Status Error **404** caso **taskId** seja invalido.
+3. ✅ Retorna Status Error **401** caso você não seja o dono da tarefa correspondente a **taskId**.
+4. ✅ Retorna Status Error **400 ou 401** caso authentication estejá mal formatada, formato corretor: **Bearer `space` Token**.

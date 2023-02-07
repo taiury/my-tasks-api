@@ -3,4 +3,4 @@ import dotenv from 'dotenv';
 
 dotenv.config();
 
-app.listen(process.env.PORT || 3002);
+app.listen(3000);

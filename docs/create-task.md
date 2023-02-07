@@ -35,5 +35,5 @@
 
 > ## Exceções
 
-1. ✅ Retorna **400** se faltar algum parâmetro obrigatório.
+1. ✅ Retorna **400** se faltar algum parâmetro obrigatório ou os parâmetros enviados estejam mal formatados.
 2. ✅ Retorna Status Error **400 ou 401** caso authentication estejá mal formatada, formato corretor: **Bearer `space` Token**
