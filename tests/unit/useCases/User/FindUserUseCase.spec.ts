@@ -1,4 +1,5 @@
 import { FindUserUseCase } from '@/useCases';
+import { Api404Error } from '@/utils';
 import { UserRepositoryMock } from '../../mocks';
 
 const userRepository = new UserRepositoryMock();
@@ -13,7 +14,7 @@ describe('FindUserUseCase', () => {
 
   it('should not find user in repository because user id is invalid', async () => {
     await expect(sut.execute({ userId: 999999 })).rejects.toThrow(
-      Error('User id invalid.'),
+      new Api404Error('User id invalid.'),
     );
   });
 });

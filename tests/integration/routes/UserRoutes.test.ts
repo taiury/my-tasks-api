@@ -26,10 +26,10 @@ describe('UserRoutes', () => {
   });
 
   // POST /user
-  it('should not create user in repository and return status 400 because user already exists', async () => {
+  it('should not create user in repository and return status 401 because user already exists', async () => {
     const response = await request(app)
       .post('/user')
-      .expect(400)
+      .expect(401)
       .send({ email: 'TEST@gmail.com' })
       .send({ password: 'PASSWORD' })
       .send({ name: 'TEST' })
@@ -37,7 +37,7 @@ describe('UserRoutes', () => {
 
     expect(response.body).toEqual(
       expect.objectContaining({
-        error: 'Bad Request',
+        error: 'Email already exists.',
       }),
     );
   });
@@ -97,7 +97,7 @@ describe('UserRoutes', () => {
   });
 
   // GET /user
-  it('should not find user in repository and return status 400 because user id is invalid', async () => {
+  it('should not find user in repository and return status 404 because user id is invalid', async () => {
     const user = await dbClient.user.findUnique({
       where: { email: 'TEST@gmail.com' },
     });
@@ -106,12 +106,12 @@ describe('UserRoutes', () => {
 
     const response = await request(app)
       .get('/user')
-      .expect(400)
+      .expect(404)
       .set({ authentication: `Bearer ${generateToken(-1)}` });
 
     expect(response.body).toEqual(
       expect.objectContaining({
-        error: 'Bad Request',
+        error: 'User id invalid.',
       }),
     );
   });

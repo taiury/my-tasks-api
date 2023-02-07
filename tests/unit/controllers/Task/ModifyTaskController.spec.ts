@@ -38,7 +38,7 @@ describe('ModifyTaskController', () => {
     expect(res.status).toHaveBeenCalledWith(400);
     expect(res.json).toHaveBeenCalledWith(
       expect.objectContaining({
-        error: 'Bad Request',
+        error: 'Parameters are badly formatted.',
       }),
     );
   });

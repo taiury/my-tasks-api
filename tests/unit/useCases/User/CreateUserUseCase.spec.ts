@@ -1,5 +1,9 @@
 import { CreateUserUseCase } from '@/useCases';
-import { checkEmail, GenerateEmailConfirmationCode } from '@/utils';
+import {
+  Api401Error,
+  checkEmail,
+  GenerateEmailConfirmationCode,
+} from '@/utils';
 import { MailProviderMock, UserRepositoryMock } from '../../mocks';
 
 const userRepositoryMock = new UserRepositoryMock();
@@ -36,7 +40,9 @@ describe('CreateUserUseCase', () => {
       age: 31,
     };
 
-    await expect(sut.execute(newUser)).rejects.toThrow(Error('Email invalid.'));
+    await expect(sut.execute(newUser)).rejects.toThrow(
+      new Api401Error('Email invalid.'),
+    );
   });
 
   it('should not create a new user in repository because Email already exists.', async () => {
@@ -48,7 +54,7 @@ describe('CreateUserUseCase', () => {
     };
 
     await expect(sut.execute(newUser)).rejects.toThrow(
-      Error('Email already exists.'),
+      new Api401Error('Email already exists.'),
     );
   });
 });

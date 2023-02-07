@@ -28,10 +28,10 @@ describe('FindUserController', () => {
 
     await sut.perform(req, res);
 
-    expect(res.status).toHaveBeenCalledWith(400);
+    expect(res.status).toHaveBeenCalledWith(404);
     expect(res.json).toHaveBeenCalledWith(
       expect.objectContaining({
-        error: 'Bad Request',
+        error: 'User id invalid.',
       }),
     );
   });

@@ -69,17 +69,17 @@ describe('TaskRoutes', () => {
   });
 
   // PUT /task
-  it('should not edit Task in repository return 400 because task id is invalid', async () => {
+  it('should not edit Task in repository return 404 because task id is invalid', async () => {
     const response = await request(app)
       .put('/task')
-      .expect(400)
+      .expect(404)
       .set({ authentication: `Bearer ${generateToken(newUser.id)}` })
       .send({ taskId: -1 })
       .send({ finalized: true });
 
     expect(response.body).toEqual(
       expect.objectContaining({
-        error: 'Bad Request',
+        error: 'Task not Exists.',
       }),
     );
   });

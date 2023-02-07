@@ -1,4 +1,5 @@
-import { ModifyUserUseCase } from '@/useCases';
+import { ModifyUserDTO, ModifyUserUseCase } from '@/useCases';
+import { Api400Error } from '@/utils';
 import { UserRepositoryMock } from '../../mocks';
 
 const userRepository = new UserRepositoryMock();
@@ -16,5 +17,15 @@ describe('ModifyUserUseCase', () => {
 
     expect(user?.name).toEqual('NEW_NAME');
     expect(user?.age).toEqual(23);
+  });
+
+  it('should not modify user in repository because userId is undefined', async () => {
+    await expect(
+      sut.execute({
+        userId: undefined,
+        name: 'NEW_NAME',
+        password: 'NEW_PASSWORD',
+      } as unknown as ModifyUserDTO),
+    ).rejects.toThrow(new Api400Error('Parameters are badly formatted.'));
   });
 });

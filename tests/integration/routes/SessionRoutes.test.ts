@@ -57,16 +57,16 @@ describe('SessionRoutes', () => {
   });
 
   // POST /login
-  it('should return 400 because E-mail is invalid.', async () => {
+  it('should return 401 because E-mail is invalid.', async () => {
     const response = await request(app)
       .post('/login')
-      .expect(400)
+      .expect(401)
       .send({ email: 'USER_INVALID@gmail.com' })
       .send({ password: 'PASSWORD' });
 
     expect(response.body).toEqual(
       expect.objectContaining({
-        error: 'Bad Request',
+        error: 'Email or password invalid.',
       }),
     );
   });
@@ -75,13 +75,13 @@ describe('SessionRoutes', () => {
   it('should return 400 because PASSWORD is invalid.', async () => {
     const response = await request(app)
       .post('/login')
-      .expect(400)
+      .expect(401)
       .send({ email: 'USER_INVALID@gmail.com' })
       .send({ password: 'INVALID_PASSWORD' });
 
     expect(response.body).toEqual(
       expect.objectContaining({
-        error: 'Bad Request',
+        error: 'Email or password invalid.',
       }),
     );
   });

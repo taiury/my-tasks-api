@@ -50,10 +50,10 @@ describe('CreateUserController', () => {
     const res = new MockResponse() as Response;
 
     await sut.perform(req, res);
-    expect(res.status).toHaveBeenCalledWith(400);
+    expect(res.status).toHaveBeenCalledWith(401);
     expect(res.json).toHaveBeenCalledWith(
       expect.objectContaining({
-        error: 'Bad Request',
+        error: 'Email invalid.',
       }),
     );
   });
