@@ -5,7 +5,7 @@ import { generateToken } from '@/utils';
 import { User } from '@prisma/client';
 
 const newUser = {
-  id: 1,
+  id: -999,
   email: 'TASK@gmail.com',
   name: 'TASK',
   password: 'PASSWORD',
